@@ -13,4 +13,19 @@ map("n", "<leader>xw", "<cmd>Trouble diagnostics toggle<cr>", { desc = "Workspac
 map("n", "[q", function() require("trouble").next({skip_groups = true, jump = true}) end, { desc = "Next Trouble Item" })
 map("n", "]q", function() require("trouble").prev({skip_groups = true, jump = true}) end, { desc = "Previous Trouble Item" })
 
+-- cycle through open buffers
+map('n', 'gt', ':bnext<CR>', { desc = "Next Buffer" })
+map('n', 'gT', ':bprev<CR>', { desc = "Prev Buffer" })
+
+-- Window Splitting
+map('n', '<leader>v', ':vsplit<CR>', { desc = "Vertical Split" })
+map('n', '<leader>h', ':split<CR>', { desc = "Horizontal Split" })
+
+-- Buffer Closing
+map('n', '<leader>q', ':bd<CR>', { desc = "Close Buffer" })
+
+-- Window Navigation
+map('n', '<C-h>', '<C-w>h', { desc = "Move Left" })
+map('n', '<C-l>', '<C-w>l', { desc = "Move Right" })
+
 -- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")

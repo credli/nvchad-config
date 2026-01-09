@@ -25,6 +25,19 @@ return {
     ft = "go",
     dependencies = "mfussenegger/nvim-dap",
     config = function()
+      local dap = require("dap")
+      local dapui = require("dapui")
+
+      dapui.setup()
+
+      vim.keymap.set('n', '<F5>', dap.continue, { desc = "Debug: Start/Continue" })
+      vim.keymap.set('n', '<leader>b', dap.toggle_breakpoint, { desc = "Toggle Breakpoint" })
+
+      dap.listeners.after.event_initialized["dapui_config"] = function() dapui.open() end
+      dap.listeners.before.event_terminated["dapui_config"] = function() dapui.close() end
+      dap.listeners.before.event_exited["dapui_config"] = function() dapui.close() end
+
+
       require("dap-go").setup {
         -- Tell it to use the dlv binary in your Termux path
         delve = {
@@ -66,7 +79,7 @@ return {
     dependencies = { "nvim-tree/nvim-web-devicons" },
     cmd = "Trouble",
     opts = {},
-  }
+  },
 
   -- test new blink
   -- { import = "nvchad.blink.lazyspec" },
