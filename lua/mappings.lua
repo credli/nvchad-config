@@ -28,4 +28,20 @@ map('n', '<leader>q', ':bd<CR>', { desc = "Close Buffer" })
 map('n', '<C-h>', '<C-w>h', { desc = "Move Left" })
 map('n', '<C-l>', '<C-w>l', { desc = "Move Right" })
 
+
+local function close_all_buffers_but_current_one()
+  local bufs = vim.api.nvim_list_bufs()
+  local current_buf = vim.api.nvim_get_current_buf()
+  for _, i in ipairs(bufs) do
+    local buftype = vim.api.nvim_get_option_value('buftype', { buf = i })
+    local is_listed = vim.api.nvim_get_option_value('buflisted', { buf = i })
+    -- Only delete if it's NOT the current one AND it's a normal file
+    -- (buftype is empty for normal files)
+    if i ~= current_buf and buftype == "" and is_listed then
+      vim.api.nvim_buf_delete(i, {})
+    end
+  end
+end
+map('n', '<C-Q>', close_all_buffers_but_current_one, { desc = "Close all buffers but the current one"})
+
 -- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
